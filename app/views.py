@@ -8,6 +8,12 @@ import os
 from app import app
 from flask import render_template, request, redirect, url_for, flash, session, abort
 from werkzeug.utils import secure_filename
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+
+
+
+""" Number 3"""
+from forms import UploadForm
 
 
 ###
@@ -31,11 +37,17 @@ def upload():
     if not session.get('logged_in'):
         abort(401)
 
-    # Instantiate your form class
+    # Instantiate your form class (4a)
+    uploadform=UploadForm()
 
     # Validate file upload on submit
     if request.method == 'POST':
         # Get file data and save to your uploads folder
+        if uploadform.validate_on_submit():
+            f = uploadform.photo.data
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.instance_path, 'photos', filename))
+            return redirect(url_for('index'))
 
         flash('File Saved', 'success')
         return redirect(url_for('home'))
@@ -99,7 +111,9 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+    
+    
+    
+""" Validation 4b"""    
 
-
-if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port="8080")
+    
