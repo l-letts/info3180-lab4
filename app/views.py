@@ -5,15 +5,15 @@ Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
 import os
-from app import app
+from app import app, UploadFolder, Allowed_Uploads
 from flask import render_template, request, redirect, url_for, flash, session, abort
 from werkzeug.utils import secure_filename
-from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+'''from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class'''
 
 
 
 """ Number 3"""
-from forms import UploadForm
+from form import UploadForm
 
 
 ###
@@ -46,7 +46,7 @@ def upload():
         if uploadform.validate_on_submit():
             f = uploadform.photo.data
             filename = secure_filename(f.filename)
-            f.save(os.path.join(app.instance_path, 'photos', filename))
+            f.save(os.path.join(UploadFolder, filename))
             return redirect(url_for('index'))
 
         flash('File Saved', 'success')
@@ -111,9 +111,4 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-    
-    
-    
-""" Validation 4b"""    
-
     
