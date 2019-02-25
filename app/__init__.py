@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import flask
 
 # Config Values
 USERNAME = 'admin'
@@ -8,7 +8,7 @@ PASSWORD = 'password123'
 SECRET_KEY = 'Sup3r$3cretkey'
 UPLOAD_FOLDER ="./app/static/uploads"
 
-app = Flask(__name__)
+app = flask(__name__)
 app.config.from_object(__name__)
 Allowed_Uploads = ['jpg','png','jpeg']
 UploadFolder = app.config['UPLOAD_FOLDER']
